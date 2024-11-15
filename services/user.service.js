@@ -16,21 +16,7 @@ const alreadyExistingEmail = async (email) => {
 }
 
 const alreadyExistingPhone = async (phone, role) => {
-    if(role === 'VENDOR') {
-        const user = await prisma.vendor.findFirst({
-            where: {
-                phone: phone
-            }
-        });
-        return user ? true : false;
-    } else if(role === 'CONTRACTOR') {
-        const user = await prisma.contractor.findFirst({
-            where: {
-                phone: phone
-            }
-        });
-        return user ? true : false;
-    }
+    return false;
 }
 
 const generatePasswordHash = async (password) => {
@@ -77,11 +63,12 @@ const signin = async (username, password) => {
     if(isMatch) {
         const data = generateToken(user);
         return {
+            success: true,
             token: data,
             user: {
                 id: user.id,
                 username: user.username,
-                role: user.role.title
+                role: user.Role.title
             },
             data: userData
         };
