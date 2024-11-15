@@ -50,6 +50,7 @@ Ensure you have the following installed:
 
 ## **Project Structure**
 
+**Structure of the project**
     ```bash
     ├── prisma/
     │   ├── schema.prisma       # Prisma schema file
