@@ -69,7 +69,10 @@ const signin = async (username, password) => {
     if(!user.verified) throw ({status: 400, message: "Email not verified"});
     const isMatch = await bcrypt.compare(password, user.password);
 
-    let userData = {};
+    let userData = {
+        permissions: [],
+        menu: []
+    };
     if(isMatch) {
         const data = generateToken(user);
         return {
