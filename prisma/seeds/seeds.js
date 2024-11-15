@@ -3,6 +3,12 @@ const bcrypt = require('bcryptjs');
 
 const prisma = new PrismaClient();
 
+const generatePasswordHash = async (password) => {
+  const salt = await bcrypt.genSaltSync(12);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  return hashedPassword;
+}
+
 async function main() {
   console.log("Seeding database...");
 
@@ -16,7 +22,7 @@ async function main() {
   console.log("Admin role created:", adminRole);
 
   // Create Admin User
-  const hashedPassword = await bcrypt.hash('password123', 10); // Replace with a secure password
+  const hashedPassword = await generatePasswordHash("password123") // Replace with a secure password
   const adminUser = await prisma.user.create({
     data: {
       username: 'admin', // Replace with desired admin username

@@ -64,6 +64,7 @@ const signin = async (username, password) => {
         },
         include: { Role: true }
     });
+    console.log(user);
 
     if (!user) throw ({status: 400, message: "Invalid user credentials!!"});
     if(!user.verified) throw ({status: 400, message: "Email not verified"});
@@ -136,74 +137,7 @@ const signup = async (body, files) => {
 
 const createProfile = async (body, userId, files) => {
     const {role} = body;
-    if (role === 'VENDOR') {
-        const user = await prisma.vendor.create({
-            data: {
-                company_name: body.company_name,
-                phone: body.phone,
-                email: body.email,
-                pin: body.pin,
-                address: body.address,
-                pan: files.pan[0].path,
-                gst: files.gst[0].path,
-                licence: files.license[0].path,
-                pan_no: body.pan_no,
-                gst_no: body.gst_no,
-                licence_no: body.license_no,
-                city: body.city,
-                status: "Pending",
-                vendor_id: "VDR"+(1000+userId),
-                user: {
-                    connect: { id: userId }
-                },
-                district: {
-                    connect: { id: parseInt(body.districtId, 10) }
-                },
-                state: {
-                    connect: { id: parseInt(body.stateId, 10) }
-                }
-            },
-        });
-        return user;
-
-    } else if (role === 'CONTRACTOR') {
-        const contractor = await prisma.contractor.create({
-            data: {
-                user: {
-                    connect: { id: userId }
-                },
-                name: body.name,
-                company_name: body.company_name,
-                status: "Pending",
-                phone: body.phone,
-                email: body.email,
-                licence: files.license[0].path,
-                contractor_id: "CTR"+(1000+userId),
-                license_no: body.license_no,
-
-            },
-        });
-        return contractor;
-
-    } else if (role === 'WAREHOUSE') {
-        const warehouse = await prisma.warehouse.create({
-            data: {
-                user: {
-                    connect: { id: userId } // Connect to an existing user with ID 7
-                    // or if you need to create a new user
-                    // create: { /* user data here */ }
-                },
-                name: body.name,
-                location: body.location,
-                incharge_name: body.incharge_name
-            },
-        });
-        return warehouse;
-
-    } else {
-
-        throw({status: 400, message: "Cannot create user"})
-    }
+    return body;
 }
 
 
@@ -231,7 +165,7 @@ const forgotPassword = async (email) => {
         where: {
             username: email
         },
-        include: { vendor: true, contractor: true, warehouse: true, backend: true }
+        include: { Role: true }
     });
 
     if (!user)
@@ -255,15 +189,6 @@ const forgotPassword = async (email) => {
     });
 
     try {
-        if(user.role === 'BACKEND') {
-            user.name = user.backend.name || 'Admin'
-        } else if(user.role === 'VENDOR') {
-            user.name = user.vendor.company_name
-        } else if(user.role === 'CONTRACTOR') {
-            user.name = user.contractor.name;
-        } else {
-            user.name = user.wareshouse.name;
-        }
         await new Email(user, '', otp).sendPasswordResetToken();
 
     } catch (err) {
