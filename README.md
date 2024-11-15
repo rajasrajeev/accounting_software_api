@@ -48,7 +48,7 @@ Ensure you have the following installed:
     ```bash
     npm run seed
 
-## **Project Structure**
+<!-- ## **Project Structure**
 
 1. **Structure of the project**
 
@@ -67,4 +67,4 @@ Ensure you have the following installed:
     ├── .env                    # Environment variables
     ├── package.json            # Project configuration
     ├── README.md               # Project documentation
-    └── LICENSE                 # License file
+    └── LICENSE     -->             # License file
