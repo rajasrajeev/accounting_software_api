@@ -47,3 +47,22 @@ Ensure you have the following installed:
 
     ```bash
     npm run seed
+
+## **Project Structure**
+
+    ```bash
+    ├── prisma/
+    │   ├── schema.prisma       # Prisma schema file
+    │   ├── migrations/         # Migration files
+    │   └── seeds/              # Database seed scripts
+    ├── src/
+    │   ├── controllers/        # API Controllers
+    │   ├── middlewares/        # Middleware functions
+    │   ├── models/             # Prisma Models
+    │   ├── routes/             # API Routes
+    │   ├── utils/              # Utility functions
+    │   └── app.js              # Main Express app
+    ├── .env                    # Environment variables
+    ├── package.json            # Project configuration
+    ├── README.md               # Project documentation
+    └── LICENSE                 # License file
