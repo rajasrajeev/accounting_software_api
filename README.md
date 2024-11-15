@@ -41,7 +41,6 @@ Ensure you have the following installed:
 
     ```bash
     DATABASE_URL=postgresql://username:password@localhost:5432/dbname
-    JWT_SECRET=your_jwt_secret
 
 4. **Seed the database (optional)**: Populate the database with initial data (e.g., roles and admin user)
 
