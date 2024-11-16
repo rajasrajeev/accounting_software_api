@@ -25,35 +25,39 @@ model User {
 }
 
 model Role {
-  id    Int    @id @default(autoincrement())
-  title String @unique
-  users User[]
+  id             Int              @id @default(autoincrement())
+  title          String           @unique
+  users          User[]
+  RolePermission RolePermission[]
 }
 
 model MainModule {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  SubModule SubModule[]
 }
 
 model SubModule {
-  id              Int         @id @default(autoincrement())
-  main_module_id  Int
-  name            String      @unique
-  mainModule      MainModule  @relation(fields: [main_module_id], references: [id])
+  id             Int          @id @default(autoincrement())
+  main_module_id Int
+  name           String       @unique
+  mainModule     MainModule   @relation(fields: [main_module_id], references: [id])
+  Permission     Permission[]
 }
 
 model Permission {
-  id              Int         @id @default(autoincrement())
-  sub_module_id   Int
-  name            String      @unique
-  route           String
-  subModule       SubModule   @relation(fields: [sub_module_id], references: [id])
+  id             Int              @id @default(autoincrement())
+  sub_module_id  Int
+  name           String           @unique
+  route          String
+  subModule      SubModule        @relation(fields: [sub_module_id], references: [id])
+  RolePermission RolePermission[]
 }
 
 model RolePermission {
-  id              Int          @id @default(autoincrement())
-  role_id         Int
-  permission_id   Int
-  role            Role         @relation(fields: [role_id], references: [id])
-  permission      Permission   @relation(fields: [permission_id], references: [id])
+  id            Int        @id @default(autoincrement())
+  role_id       Int
+  permission_id Int
+  role          Role       @relation(fields: [role_id], references: [id])
+  permission    Permission @relation(fields: [permission_id], references: [id])
 }
