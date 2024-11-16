@@ -29,3 +29,19 @@ model Role {
   title String @unique
   users User[]
 }
+
+model MainModule {
+  id        Int       @id @default(autoincrement())
+}
+
+model SubModule {
+  id        Int       @id @default(autoincrement())
+}
+
+model Permissions {
+  id    Int    @id @default(autoincrement())
+}
+
+model RolePermissions {
+  id    Int    @id @default(autoincrement())
+}
