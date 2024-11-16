@@ -32,16 +32,28 @@ model Role {
 
 model MainModule {
   id        Int       @id @default(autoincrement())
+  name      String    @unique
 }
 
 model SubModule {
-  id        Int       @id @default(autoincrement())
+  id              Int         @id @default(autoincrement())
+  main_module_id  Int
+  name            String      @unique
+  mainModule      MainModule  @relation(fields: [main_module_id], references: [id])
 }
 
-model Permissions {
-  id    Int    @id @default(autoincrement())
+model Permission {
+  id              Int         @id @default(autoincrement())
+  sub_module_id   Int
+  name            String      @unique
+  route           String
+  subModule       SubModule   @relation(fields: [sub_module_id], references: [id])
 }
 
-model RolePermissions {
-  id    Int    @id @default(autoincrement())
+model RolePermission {
+  id              Int          @id @default(autoincrement())
+  role_id         Int
+  permission_id   Int
+  role            Role         @relation(fields: [role_id], references: [id])
+  permission      Permission   @relation(fields: [permission_id], references: [id])
 }
